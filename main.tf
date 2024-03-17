@@ -67,33 +67,33 @@ resource "databricks_cluster" "shared_autoscaling" {
   }
 }
 
-resource "databricks_notebook" "notebook" {
-  content = base64encode("print('Welcome to your Python notebook')")
-  path = var.notebook_path
-  overwrite = false
-  mkdirs = true
-  language = "PYTHON"
-  format = "SOURCE"
-}
+# resource "databricks_notebook" "notebook" {
+#   content = base64encode("print('Welcome to your Python notebook')")
+#   path = var.notebook_path
+#   overwrite = false
+#   mkdirs = true
+#   language = "PYTHON"
+#   format = "SOURCE"
+# }
 
-resource "databricks_job" "myjob" {
-    name = "Featurization"
-    timeout_seconds = 3600
-    max_retries = 1
-    max_concurrent_runs = 1
-    existing_cluster_id = databricks_cluster.shared_autoscaling.id
+# resource "databricks_job" "myjob" {
+#     name = "Featurization"
+#     timeout_seconds = 3600
+#     max_retries = 1
+#     max_concurrent_runs = 1
+#     existing_cluster_id = databricks_cluster.shared_autoscaling.id
 
-    notebook_task {
-        notebook_path = var.notebook_path
-    }
+#     notebook_task {
+#         notebook_path = var.notebook_path
+#     }
 
-    library {
-        pypi {
-            package = "fbprophet==0.7.1"
-        }
-    }
+#     library {
+#         pypi {
+#             package = "fbprophet==0.7.1"
+#         }
+#     }
 
-    email_notifications {
-        no_alert_for_skipped_runs = true
-    }
-}
+#     email_notifications {
+#         no_alert_for_skipped_runs = true
+#     }
+# }
