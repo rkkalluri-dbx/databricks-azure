@@ -39,6 +39,9 @@ data "databricks_node_type" "smallest" {
   local_disk = true
 }
 
+# Retrieve information about the current user.
+data "databricks_current_user" "me" {}
+
 resource "databricks_cluster" "shared_autoscaling" {
   cluster_name            = "${var.prefix}-Autoscaling-Cluster"
   spark_version           = data.databricks_spark_version.latest_lts.id
@@ -65,33 +68,6 @@ resource "databricks_cluster" "shared_autoscaling" {
   }
 }
 
-# resource "databricks_notebook" "notebook" {
-#   content = base64encode("print('Welcome to your Python notebook')")
-#   path = var.notebook_path
-#   overwrite = false
-#   mkdirs = true
-#   language = "PYTHON"
-#   format = "SOURCE"
-# }
-
-# resource "databricks_job" "myjob" {
-#     name = "Featurization"
-#     timeout_seconds = 3600
-#     max_retries = 1
-#     max_concurrent_runs = 1
-#     existing_cluster_id = databricks_cluster.shared_autoscaling.id
-
-#     notebook_task {
-#         notebook_path = var.notebook_path
-#     }
-
-#     library {
-#         pypi {
-#             package = "fbprophet==0.7.1"
-#         }
-#     }
-
-#     email_notifications {
-#         no_alert_for_skipped_runs = true
-#     }
-# }
+output "cluster_url" {
+ value = databricks_cluster.shared_autoscaling.url
+}
