@@ -91,7 +91,7 @@ resource "databricks_job" "myjob" {
 
     library {
         pypi {
-            package = "fbprophet==0.6"
+            package = "fbprophet==0.7.1"
         }
     }
 
