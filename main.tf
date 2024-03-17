@@ -29,23 +29,21 @@ resource "azurerm_databricks_workspace" "myworkspace" {
   sku                           = "trial"
 }
 
-resource "databricks_scim_user" "admin" {
-  user_name    = "admin@example.com"
-  display_name = "Admin user"
-  set_admin    = true
-  default_roles = []
+# Use the latest Databricks Runtime
+# Long Term Support (LTS) version.
+data "databricks_spark_version" "latest_lts" {
+  long_term_support = true
 }
 
-data "databricks_spark_version" "latest" {}
 data "databricks_node_type" "smallest" {
   local_disk = true
 }
 
 resource "databricks_cluster" "shared_autoscaling" {
   cluster_name            = "${var.prefix}-Autoscaling-Cluster"
-  spark_version           = data.databricks_spark_version.latest
-  node_type_id            = data.databricks_node_type.smallest
-  autotermination_minutes = 90
+  spark_version           = data.databricks_spark_version.latest_lts.id
+  node_type_id            = data.databricks_node_type.smallest.id
+  autotermination_minutes = 10
   autoscale {
     min_workers = var.min_workers
     max_workers = var.max_workers

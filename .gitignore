@@ -4,3 +4,5 @@
 .terraform/providers/registry.terraform.io/databricks/databricks/1.38.0/darwin_arm64/terraform-provider-databricks_v1.38.0
 .terraform/providers/registry.terraform.io/hashicorp/azurerm/3.96.0/darwin_arm64/terraform-provider-azurerm_v3.96.0_x5
 .terraform/providers/registry.terraform.io/databricks/databricks/1.38.0/darwin_arm64/NOTICE
+override.tf
+.terraform/terraform.tfstate
