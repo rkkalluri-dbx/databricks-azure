@@ -25,9 +25,9 @@ data "azurerm_resource_group" "myresourcegroup" {
 }
 
 resource "azurerm_databricks_workspace" "myworkspace" {
-  location                      = azurerm_resource_group.myresourcegroup.location
+  location                      = data.azurerm_resource_group.myresourcegroup.location
   name                          = "${var.prefix}-workspace"
-  resource_group_name           = azurerm_resource_group.myresourcegroup.name
+  resource_group_name           = data.azurerm_resource_group.myresourcegroup.name
   sku                           = "trial"
 }
 
