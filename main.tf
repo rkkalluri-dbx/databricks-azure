@@ -51,21 +51,36 @@ resource "databricks_cluster" "shared_autoscaling" {
     min_workers = var.min_workers
     max_workers = var.max_workers
   }
-  library {
-    pypi {
-        package = "scikit-learn==0.23.2"
-        // repo can also be specified here
-        }
+  # library {
+  #   pypi {
+  #       package = "scikit-learn==0.23.2"
+  #       // repo can also be specified here
+  #       }
 
-    }
-  library {
-    pypi {
-        package = "fbprophet==0.6"
-        }
-  }
+  #   }
+  # library {
+  #   pypi {
+  #       package = "fbprophet==0.6"
+  #       }
+  # }
   custom_tags = {
     Department = "Engineering"
   }
+}
+
+resource "databricks_cluster_policy" "this" {
+  name = "Minimal (${data.databricks_current_user.me.alphanumeric})"
+  definition = jsonencode({
+    "dbus_per_hour" : {
+      "type" : "range",
+      "maxValue" : 10
+    },
+    "autotermination_minutes" : {
+      "type" : "fixed",
+      "value" : 20,
+      "hidden" : true
+    }
+  })
 }
 
 output "cluster_url" {
