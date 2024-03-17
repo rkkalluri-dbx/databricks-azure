@@ -38,11 +38,15 @@ resource "databricks_scim_user" "admin" {
   default_roles = []
 }
 
+data "databricks_spark_version" "latest" {}
+data "databricks_node_type" "smallest" {
+  local_disk = true
+}
 
 resource "databricks_cluster" "shared_autoscaling" {
   cluster_name            = "${var.prefix}-Autoscaling-Cluster"
-  spark_version           = var.spark_version
-  node_type_id            = var.node_type_id
+  spark_version           = data.databricks_spark_version.latest
+  node_type_id            = data.databricks_node_type.smallest
   autotermination_minutes = 90
   autoscale {
     min_workers = var.min_workers

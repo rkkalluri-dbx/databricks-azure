@@ -5,18 +5,18 @@ variable "prefix" {
 
 variable "location" {
   description = "The region"
-  default     = "centralus"
+  default     = "eastus"
 }
 
-variable "spark_version" {
-  description = "Spark Runtime Version for databricks clusters"
-  default     = "7.3.x-scala2.12"
-}
+# variable "spark_version" {
+#   description = "Spark Runtime Version for databricks clusters"
+#   default     = "7.3.x-scala2.12"
+# }
 
-variable "node_type_id" {
-  description = "Type of worker nodes for databricks clusters"
-  default     = "Standard_DS3_v2"
-}
+# variable "node_type_id" {
+#   description = "Type of worker nodes for databricks clusters"
+#   default     = "Standard_DS3_v2"
+# }
 
 variable "notebook_path" {
   description = "Path to a notebook"
@@ -30,5 +30,5 @@ variable "min_workers" {
 
 variable "max_workers" {
   description = "Maximum workers in a cluster"
-  default     = 4
+  default     = 1
 }
